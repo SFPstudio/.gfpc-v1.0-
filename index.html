@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>GFPC文件读写工具</title>
+    <style>
+        fieldset {
+            margin-bottom: 20px;
+        }
+        #frameDataContainer {
+            margin-bottom: 10px;
+        }
+        .frameData {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <label for="frameRate">帧率（每秒帧数）:</label>
+    <input type="number" id="frameRate" value="2">
+
+    <fieldset>
+        <legend>帧数据</legend>
+        <div id="frameDataContainer">
+            <!-- 帧数据输入区域 -->
+        </div>
+        <button type="button" onclick="addFrameData()">Add Frame</button>
+    </fieldset>
+
+    <button onclick="writeGfpcFile()">生成GFPC文件</button>
+    <a id="downloadLink" style="display: none;">下载GFPC文件</a>
+
+    <script>
+        // 定义帧的数据结构
+        class GfpcFrame {
+            constructor(second, frameNumber, playerid, x, y, z) {
+                this.second = second;
+                this.frameNumber = frameNumber;
+                this.playerid = playerid;
+                this.x = x;
+                this.y = y;
+                this.z = z;
+            }
+        }
+
+        // 添加帧数据输入区域
+        function addFrameData() {
+            const container = document.getElementById('frameDataContainer');
+            const frameDataDiv = document.createElement('div');
+            frameDataDiv.className = 'frameData';
+
+            const secondInput = document.createElement('input');
+            secondInput.type = 'number';
+            secondInput.className = 'second';
+            secondInput.value = '1';
+            frameDataDiv.appendChild(secondInput);
+
+            const frameNumberInput = document.createElement('input');
+            frameNumberInput.type = 'number';
+            frameNumberInput.className = 'frameNumber';
+            frameNumberInput.value = '1';
+            frameDataDiv.appendChild(frameNumberInput);
+
+            const playeridInput = document.createElement('input');
+            playeridInput.type = 'text';
+            playeridInput.className = 'playerid';
+            playeridInput.value = 'p';
+            frameDataDiv.appendChild(playeridInput);
+
+            const xInput = document.createElement('input');
+            xInput.type = 'number';
+            xInput.className = 'x';
+            xInput.value = '1';
+            frameDataDiv.appendChild(xInput);
+
+            const yInput = document.createElement('input');
+            yInput.type = 'number';
+            yInput.className = 'y';
+            yInput.value = '0';
+            frameDataDiv.appendChild(yInput);
+
+            const zInput = document.createElement('input');
+            zInput.type = 'number';
+            zInput.className = 'z';
+            zInput.value = '0';
+            frameDataDiv.appendChild(zInput);
+
+            container.appendChild(frameDataDiv);
+        }
+
+        // 从输入区域读取帧数据
+        function getFrames() {
+            const frames = [];
+            const frameDataDivs = document.getElementsByClassName('frameData');
+            for (let i = 0; i < frameDataDivs.length; i++) {
+                const second = parseInt(frameDataDivs[i].querySelector('.second').value);
+                const frameNumber = parseInt(frameDataDivs[i].querySelector('.frameNumber').value);
+                const playerid = frameDataDivs[i].querySelector('.playerid').value;
+                const x = parseInt(frameDataDivs[i].querySelector('.x').value);
+                const y = parseInt(frameDataDivs[i].querySelector('.y').value);
+                const z = parseInt(frameDataDivs[i].querySelector('.z').value);
+                frames.push(new GfpcFrame(second, frameNumber, playerid, x, y, z));
+            }
+            return frames;
+        }
+
+        // 生成并下载GFPC文件
+        function writeGfpcFile() {
+            const frameRate = parseInt(document.getElementById('frameRate').value);
+            const frames = getFrames();
+
+            let content = `#[f=${frameRate}]\n`;
+            for (let frame of frames) {
+                content += `[${frame.second}-${frame.frameNumber}]_${frame.playerid}_[`;
+                content += `x=${frame.x}_y=${frame.y}_z=${frame.z}]\n`;
+            }
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.getElementById('downloadLink');
+            downloadLink.href = url;
+            downloadLink.download = 'output.gfpc';
+            downloadLink.style.display = 'inline';
+            downloadLink.click();
+            URL.revokeObjectURL(url); // 释放URL对象
+        }
+    </script>
+</body>
+</html>
