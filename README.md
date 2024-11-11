@@ -41,7 +41,8 @@
 `tsc`
 这将根据  tsconfig.json  中的设置编译TypeScript文件，并输出JavaScript文件到  Dist  目录。5. 启动Puerts环境在你的游戏实例（GameInstance）中启动Puerts环境，并加载编译后的JavaScript文件。
 ### cpp
-`// GameInstance.h
+`
+// GameInstance.h
 #pragma once
 
 #include "CoreMinimal.h"
@@ -64,10 +65,12 @@ void UMyGameInstance::Init() {
   FPuertsJsEnv& JsEnv = FPuertsJsEnv::GetOne();
   // 加载编译后的JavaScript文件
   JsEnv.EvalFile(TEXT("$(ProjectDir)/Dist/TypeScript_API_UE_Puerts.js"), TEXT("TypeScript_API_UE_Puerts"));
-}`
+}
+`
 6. 调用TypeScript函数在C++代码中，你可以使用Puerts提供的接口来调用TypeScript中的函数。
 ### cpp
-`// SomeFunction.cpp
+`
+// SomeFunction.cpp
 #include "MyGameInstance.h"
 
 void SomeFunction(UMyGameInstance* GameInstance) {
@@ -78,5 +81,5 @@ void SomeFunction(UMyGameInstance* GameInstance) {
     // 调用TypeScript函数
     GameInstance->CallFunction("writeGFPCFile", FilePath, Data);
   }
-}`
+} `
 ### 在蓝图中，你可以使用Puerts提供的节点来直接调用这些函数。注意事项• 确保你的TypeScript文件被正确编译，并且可以在Puerts环境中访问。• 确保你的TypeScript函数签名与C++中调用的签名一致。• 使用Puerts时，所有UE的API都可以通过TypeScript/JavaScript访问，就像在蓝图中一样。通过上述步骤，你应该能够在Windows环境下的UE5项目中使用Puerts插件调用TypeScript API(本)了。
