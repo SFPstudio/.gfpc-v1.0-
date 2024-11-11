@@ -69,8 +69,7 @@ void UMyGameInstance::Init() {
 `
 6. 调用TypeScript函数在C++代码中，你可以使用Puerts提供的接口来调用TypeScript中的函数。
 ### cpp
-`
-// SomeFunction.cpp
+`// SomeFunction.cpp
 #include "MyGameInstance.h"
 
 void SomeFunction(UMyGameInstance* GameInstance) {
