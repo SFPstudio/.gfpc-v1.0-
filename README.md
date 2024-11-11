@@ -15,7 +15,7 @@
 ：这个函数接受一个文件路径作为参数，读取该路径下的  .gfpc  文件，并返回一个包含解析后数据的对象。
 ### writeGFPCFile(filePath: string, data: GFPCData): void  
 ：这个函数接受一个文件路径和一个数据对象作为参数，将数据对象写入到指定的  .gfpc  文件中。
-# 在UE5中使用本API （务必检查以下步骤）
+# 在UE5中使用本API （务必检查以下步骤 有部分代码显示有误 如要复制 请打开README.md的源码复制）
 
 在Windows环境下使用UE5和Puerts插件调用TypeScript中的API和函数，你需要遵循以下步骤：1. 确保Puerts插件集成确保你的UE5项目已经集成了Puerts插件。如果没有，请按照Puerts的官方文档进行集成。2. 配置TypeScript环境在项目中创建一个  tsconfig.json  文件，用于配置TypeScript编译器的设置。这个文件可以位于项目的根目录或者  Sou rce 目录下。
 ## json
@@ -41,7 +41,6 @@
 `tsc`
 这将根据  tsconfig.json  中的设置编译TypeScript文件，并输出JavaScript文件到  Dist  目录。5. 启动Puerts环境在你的游戏实例（GameInstance）中启动Puerts环境，并加载编译后的JavaScript文件。
 ## cpp
-###
 // GameInstance.h
 #pragma once
 
@@ -71,7 +70,6 @@ void UMyGameInstance::Init() {
 
 6. 调用TypeScript函数在C++代码中，你可以使用Puerts提供的接口来调用TypeScript中的函数。
 ### cpp
-###
 // SomeFunction.cpp
 #include "MyGameInstance.h"
 
